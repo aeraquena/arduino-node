@@ -12,6 +12,7 @@ board.on("ready", () => {
   wss.on("connection", (ws) => {
     ws.on("message", (message) => {
       const command = JSON.parse(message);
+      console.log(command);
       if (command.action === "blink") {
         console.log("blink LED");
         led.blink();
@@ -22,6 +23,9 @@ board.on("ready", () => {
         const angle = Math.floor(Math.random() * 360);
         console.log("set servo to angle: " + angle);
         servo.to(angle);
+      } else if (command.action === "turnToAngle") {
+        console.log("set servo to angle: " + command.payload.angle);
+        servo.to(command.payload.angle);
       }
     });
   });
